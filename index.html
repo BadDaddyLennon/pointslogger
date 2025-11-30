@@ -607,12 +607,12 @@
 
     <script>
         // *******************************************************************
-        // *** ⚠️ CONFIGURATION: Replace these placeholders for server sync! ***
+        // ***⚠️ CONFIGURATION: Replace these placeholders for server sync! ***
         // *******************************************************************
-        // Get your BIN_ID and SECRET_KEY from your account at JSONBin.io
-        // WARNING: If you run this publicly, only people with the keys can save/load.
-        const BIN_ID = "YOUR_JSONBIN_BIN_ID_HERE";
-        const SECRET_KEY = "YOUR_JSONBIN_SECRET_KEY_HERE";
+        // BIN_ID has been updated with your new ID.
+        // You MUST replace the SECRET_KEY placeholder below with your JSONBin.io Master Key.
+        const BIN_ID = "6920a528ae596e708f67f685";
+        const SECRET_KEY = "$2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW"; // <--- YOU MUST REPLACE THIS!
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -647,8 +647,8 @@
 
         // --- JSONBIN Functions ---
         async function loadEntries() {
-            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 console.error("JSONBin API Keys not set. Log will not save or load from server.");
+            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
+                 console.error("JSONBin Secret Key is not set. Log will not save or load from server.");
                  return;
             }
 
@@ -676,8 +676,8 @@
         }
 
         async function saveEntries() {
-            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 console.error("JSONBin API Keys not set. Log cannot be saved to server.");
+            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
+                 console.error("JSONBin Secret Key is not set. Log cannot be saved to server.");
                  return;
             }
             
@@ -701,8 +701,8 @@
         }
 
         async function clearLog() {
-            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 alert("Cannot clear server log: API keys are not configured.");
+            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
+                 alert("Cannot clear server log: API key is not configured.");
                  return;
             }
             
