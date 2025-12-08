@@ -680,12 +680,12 @@
 
     <script>
         // *******************************************************************
-        // *** ⚠️ CONFIGURATION: Replace these placeholders for server sync! ***
+        // *** ⚠️ CONFIGURATION: YOUR PRIVATE KEYS ARE INCLUDED BELOW! ⚠️ ***
         // *******************************************************************
-        // Note: Your actual working BIN_ID should be here.
+        // BIN_ID: 6920a528ae596e708f67f685 (Your specific data storage location)
         const BIN_ID = "6920a528ae596e708f67f685";
-        // Note: Your actual working SECRET_KEY should be here.
-        const SECRET_KEY = "YOUR_JSONBIN_SECRET_KEY_HERE"; 
+        // SECRET_KEY: $2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW (Your Master Key)
+        const SECRET_KEY = "$2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -720,13 +720,8 @@
         };
         // --------------------------------------------------------------------------
 
-        // --- JSONBIN Functions (No changes needed here) ---
+        // --- JSONBIN Functions ---
         async function loadEntries() {
-            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 console.error("JSONBin Secret Key is not set. Log will not save or load from server.");
-                 return;
-            }
-
             try {
                 const response = await fetch(API_URL, {
                     method: 'GET',
@@ -751,11 +746,6 @@
         }
 
         async function saveEntries() {
-            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 console.error("JSONBin Secret Key is not set. Log cannot be saved to server.");
-                 return;
-            }
-            
             let dataToSend = logEntries.length > 0 ? logEntries : [PLACEHOLDER_ENTRY];
 
             try {
@@ -776,11 +766,6 @@
         }
 
         async function clearLog() {
-            if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                 alert("Cannot clear server log: API key is not configured.");
-                 return;
-            }
-            
             const passwordAttempt = prompt("⚠️ WARNING: This will permanently delete ALL log entries from the SERVER. Please enter the password to confirm:");
 
             if (passwordAttempt !== CLEAR_PASSWORD) {
