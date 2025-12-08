@@ -37,7 +37,7 @@
 
         body {
             font-family: 'Roboto', sans-serif;
-            padding: 30px; 
+            padding: 30px; /* Base padding */
             background: var(--modern-darkest);
             min-height: 100vh;
             margin: 0;
@@ -45,13 +45,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden; 
+            overflow-x: hidden; /* Prevent global horizontal scroll */
             line-height: 1.6; 
         }
 
         header {
             text-align: center;
             margin-bottom: 40px;
+            position: relative;
             width: 100%;
             display: flex;
             justify-content: center;
@@ -140,7 +141,8 @@
         #amountInput,
         #whatFor,
         #actionSelect,
-        #searchBar {
+        #searchBar,
+        #noteInput { /* Added #noteInput */
             font-family: 'Roboto', sans-serif;
             padding: 15px;
             margin: 12px 0;
@@ -155,7 +157,7 @@
             box-sizing: border-box;
         }
 
-        #nameId, #amountInput, #whatFor, #actionSelect {
+        #nameId, #amountInput, #whatFor, #actionSelect, #noteInput { /* Added #noteInput */
             border: 1px solid var(--modern-accent-blue);
             box-shadow: 0 0 5px rgba(0, 174, 239, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.6);
         }
@@ -239,8 +241,6 @@
         .danger-button:hover { background: #C0392B; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.5); }
         .info-button { background: #2C3E50; border: 2px solid #34495E; color: var(--modern-text-light); }
         .info-button:hover { background: #34495E; box-shadow: 0 4px 15px rgba(44, 62, 80, 0.5); }
-        .cancel-button { background: #505050; border: 2px solid #333; color: var(--modern-text-light); }
-        .cancel-button:hover { background: #333; }
 
         /* --- POINTS REFERENCE LAYOUT: Desktop --- */
         .points-reference {
@@ -265,7 +265,7 @@
         }
 
         .reference-section h3 {
-            text-align: center;
+             text-align: center;
         }
         
         .reference-section ul {
@@ -312,100 +312,91 @@
         .swatch-other { background-color: var(--log-other-color); border-color: var(--log-other-color); }
 
 
-        /* --- LOG ENTRIES: MAX VISIBILITY REDESIGN (DESKTOP) --- */
+        /* --- LOG ENTRY AGGRESSIVE COMPACTION STYLING (Desktop) --- */
         #entryList {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        
-        .list-utility-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            gap: 10px;
-        }
-        
-        #deleteSelectedBtn {
-            flex-grow: 1;
-            max-width: 45%;
-            padding: 10px 15px;
-            font-size: 0.9em;
-        }
 
         #entryList li {
+            /* Aggressively Tighter Vertical Spacing */
             background: var(--modern-input-bg);
-            margin: 8px 0; 
-            padding: 12px; 
+            margin: 4px 0; /* Minimized margin */
+            padding: 6px; /* Minimized padding */
             border-radius: 4px;
             border: 1px solid; 
-            font-size: 0.95em; 
+            font-size: 0.8em; /* Base smaller font for log entries */
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            cursor: pointer; /* Indicate item is clickable */
-            transition: background-color 0.2s, box-shadow 0.2s;
-        }
-        
-        /* Highlight row on selection */
-        #entryList li.selected {
-            background-color: #34495E; 
-            box-shadow: 0 0 10px rgba(0, 174, 239, 0.4); /* Glow effect on selection */
-        }
-        #entryList li:hover:not(.selected) {
-            background-color: #282828;
         }
 
         .log-content {
-            /* Desktop: Uses Flexbox with wrap for clarity */
+            /* Single line structure (Desktop) */
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             width: 100%;
-            align-items: flex-start;
-            padding-bottom: 10px;
-            border-bottom: 1px dashed var(--modern-border);
-            margin-bottom: 5px; 
-            gap: 10px 30px;
+            align-items: center;
+            padding-bottom: 2px; 
+            border-bottom: none; 
+            margin-bottom: 0; 
         }
 
         .log-segment {
-            padding: 0;
-            line-height: 1.4;
-            flex-basis: auto; 
-            flex-grow: 1; 
+            padding: 0 8px 0 0; /* Minimal padding between segments */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+            flex-basis: auto;
         }
         
         .log-segment strong {
-            font-weight: 700; 
+            font-weight: 500; 
             color: var(--modern-secondary-text); 
-            margin-right: 5px;
-            display: inline-block;
-            min-width: 60px; 
+            margin-right: 3px;
         }
-        
-        /* Desktop Segment Sizes: Giving them clear breakpoints */
+
+        /* Desktop Log Segment Widths - Player name reverted to original size (inherited 0.8em) */
         .log-segment-name { 
-            flex-basis: 35%; 
+            flex-basis: 220px; 
             font-weight: 700; 
             color: var(--modern-accent-blue); 
-            min-width: 250px;
-        }
-        .log-segment-action {
-            flex-basis: 25%;
             min-width: 180px;
         }
+        
+        .log-segment-action {
+             flex-basis: 180px; 
+             min-width: 150px;
+        }
         .log-segment-amount { 
-            flex-basis: 25%;
-            min-width: 150px;
+            flex-basis: 120px; 
             font-weight: 900; 
             text-shadow: 0 0 5px rgba(102, 204, 255, 0.4);
+            min-width: 100px;
         }
         .log-segment-reason { 
-            flex-basis: 100%; 
-            font-size: 0.9em;
-            margin-top: 5px; 
+            flex-grow: 1; 
+            min-width: 200px; 
+            white-space: normal;
+        }
+        
+        /* New line for notes */
+        .log-segment-note {
+            display: block; /* Make it take up its own line */
+            width: 100%;
+            padding: 3px 0 0 0;
+            color: var(--modern-secondary-text);
+            font-style: italic;
+            border-top: 1px dashed var(--modern-border);
+            margin-top: 4px;
+            padding-top: 4px;
+        }
+        .log-segment-note strong {
+             font-style: normal;
+             color: var(--modern-text-light);
+             font-weight: 700;
         }
 
 
@@ -418,12 +409,13 @@
 
         .log-timestamp {
             font-family: 'Roboto', sans-serif;
-            font-size: 0.75em; 
+            font-size: 0.65em; /* Extremely small timestamp */
             color: #AAAAAA;
             display: block;
             padding: 1px 0 0 0; 
             width: 100%;
             text-align: right;
+            margin-top: 1px; 
         }
 
         /* --- Log Color Borders --- */
@@ -432,92 +424,34 @@
         #entryList li.adjusted { border-color: var(--log-adjusted-color); }
         #entryList li.other { border-color: var(--log-other-color); }
         
-        /* --- DELETE BUTTON STYLES (now dedicated list button) --- */
-        #deleteSelectedBtn {
-            background: #E74C3C; 
-            color: var(--modern-text-light);
-            border: 1px solid #C0392B;
-        }
-        #deleteSelectedBtn:hover {
-            background: #C0392B;
-            box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
-        }
-
-
-        /* --- MODAL STYLES (New) --- */
-        #deleteConfirmationModal {
-            display: none; 
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: var(--modern-dark-bg);
-            margin: 5% auto;
-            padding: 30px;
-            border: 2px solid var(--log-deducted-color);
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .modal-content h3 {
-            color: var(--log-deducted-color);
-            border-bottom: 2px solid var(--modern-border);
-            padding-bottom: 10px;
-            margin-top: 0;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .modal-body {
-            margin-bottom: 20px;
-            font-size: 1.1em;
-        }
-
-        .modal-checkbox-group {
+        /* --- SEARCH BAR AND BUTTON CONTAINER STYLING --- */
+        .search-container {
             display: flex;
-            align-items: center;
-            margin: 20px 0;
-        }
-
-        .modal-checkbox-group input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            margin-right: 15px;
-            accent-color: var(--log-deducted-color);
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
             gap: 10px;
+            width: 100%;
+            align-items: center;
         }
-
-        .modal-footer button {
-            width: auto;
-            min-width: 100px;
-            padding: 10px 20px;
+        #searchBar {
+            flex-grow: 1;
+            margin: 12px 0; /* Align with input field margins */
+            min-width: 0;
         }
-        /* End MODAL STYLES */
+        #searchButton {
+            /* Inherit button styles but modify size for the search container */
+            width: 100px; /* Fixed width for search button */
+            min-width: 0;
+            padding: 15px 10px;
+            margin: 12px 0; /* Align with input field margins */
+            font-size: 1.1em;
+            text-transform: none; /* Keep capitalization simple */
+            box-shadow: none;
+        }
+        /* --- END SEARCH STYLING --- */
 
 
-        /* --- RESPONSIVE ADJUSTMENTS (MOBILE: MAX VISIBILITY) --- */
+        /* --- RESPONSIVE ADJUSTMENTS (Mobile Readability Fix) --- */
         
+        /* Tablet/Mid-Sized Screens */
         @media (max-width: 1100px) {
             .input-form, .list-container {
                 flex: 1 1 100%;
@@ -525,6 +459,7 @@
             }
         }
         
+        /* Mobile Screens */
         @media (max-width: 768px) {
             body {
                 padding: 15px; 
@@ -540,53 +475,72 @@
             .input-form, .list-container {
                 padding: 20px;
             }
-            
-            /* List utility button */
-            .list-utility-group {
-                flex-direction: column;
-                gap: 10px;
+
+            .search-container {
+                 flex-direction: column;
+                 gap: 0;
             }
-            #deleteSelectedBtn {
-                max-width: 100%;
-                width: 100%;
+            #searchBar {
+                 margin-bottom: 0;
+                 width: 100%;
+            }
+            #searchButton {
+                 margin-top: 10px;
+                 width: 100%;
+                 max-width: 100%;
             }
             
-            /* Modal mobile size */
-            .modal-content {
-                width: 90%;
-            }
-            
-            /* --- LOG ENTRY MOBILE FIXES: Stacked for Clarity --- */
+            /* --- LOG ENTRY MOBILE FIXES --- */
             
             #entryList li {
-                padding: 10px; 
-            }
-            
-            .log-content {
-                flex-direction: column; 
-                gap: 2px;
-                border-bottom: 1px dashed var(--modern-border); 
-            }
-            
-            .log-segment {
-                width: 100%; 
-                white-space: normal;
-                overflow: visible;
-                display: flex; 
-                justify-content: flex-start;
-                align-items: flex-start;
-                padding: 2px 0;
-            }
-            
-            .log-segment strong {
-                min-width: 80px; 
-                flex-shrink: 0;
+                font-size: 0.9em; /* Increased base font for mobile legibility */
+                padding: 8px; 
             }
 
-            /* Timestamp always left-aligned */
+            /* Stack log segments vertically */
+            .log-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .log-segment {
+                /* RESTORING PADDING for stacked elements */
+                padding: 3px 0; 
+                width: 100%;
+                box-sizing: border-box;
+                white-space: normal;
+                text-overflow: unset;
+                overflow: visible;
+            }
+            
+            /* Add separation line after the amount */
+            .log-segment-amount {
+                padding-bottom: 5px;
+                border-bottom: 1px dashed var(--modern-border); 
+                margin-bottom: 5px;
+            }
+
+            /* Remove specific fixed widths on mobile */
+            .log-segment-name,
+            .log-segment-amount,
+            .log-segment-action,
+            .log-segment-reason {
+                flex-basis: auto;
+                min-width: unset;
+                width: 100%;
+            }
+
+            /* Mobile Player Name Size Adjustment */
+            .log-segment-name {
+                 font-size: 0.8em; 
+            }
+            
+            /* Ensure timestamp is legible and left-aligned */
             .log-timestamp {
                 text-align: left;
-                font-size: 0.8em;
+                font-size: 0.75em;
+                margin-top: 3px;
+                padding: 0;
             }
         }
     </style>
@@ -620,7 +574,6 @@
                 <option value="Discord Boost (1k points)">Discord boost (1k points)</option>
                 <option value="Server Donation (1k points)">Server donation (1k points)</option>
                 <option value="Mod Developer Donation (1k points)">Mod developer donation (1k points)</option>
-                <option value="1st on Voting Leaderboard (5k points)">1st on Voting Leaderboard (5k points)</option>
                 <option value="Mee6 Lvl 10 (2k points)">Mee6 Lvl 10 (2k points)</option>
                 <option value="Mee6 Lvl 15 (3k points)">Mee6 Lvl 15 (3k points)</option>
                 <option value="Mee6 Lvl 20 (4k points)">Mee6 Lvl 20 (4k points)</option>
@@ -634,6 +587,8 @@
             </select>
 
             <input type="text" id="miscReasonInput" placeholder="Specify Misc Reason" style="display:none;">
+            
+            <input type="text" id="noteInput" placeholder="Optional: Add a specific note or comment">
 
             <div class="button-group">
                 <button id="addToListBtn">Save to Log</button>
@@ -653,10 +608,6 @@
                         <li class="points-list-item">
                             <span>💎 Server/Mod Donation:</span>
                             <strong>1,000 pts</strong>
-                        </li>
-                        <li class="points-list-item">
-                            <span>🗳️ Voting Leaderboard 1st:</span>
-                            <strong>5,000 pts</strong>
                         </li>
                         <li class="points-list-item">
                             <span>🏅 Mee6 Lvl 10:</span>
@@ -711,43 +662,25 @@
 
         <div class="list-container">
             <h2>📜 Points History</h2> 
-            <input type="text" id="searchBar" placeholder="🔍 Search Player, Action, or Reason...">
-            
-            <div class="list-utility-group">
-                 <button id="deleteSelectedBtn" class="danger-button" disabled>🗑️ Delete Selected Entries</button>
-            </div>
 
+            <div class="search-container">
+                <input type="text" id="searchBar" placeholder="🔍 Search Player, Action, Reason, or Notes...">
+                <button id="searchButton">Search</button>
+            </div>
+            
             <ul id="entryList">
             </ul>
         </div>
     </div>
 
-    <div id="deleteConfirmationModal" style="display: none;">
-        <div class="modal-content">
-            <h3><span style="color:var(--log-deducted-color);">⚠️ CONFIRM DELETE ACTION</span></h3>
-            <div class="modal-body">
-                <p>You have selected <strong id="entriesToDeleteCount">0</strong> log entries for deletion.</p>
-                <p>This action is **PERMANENT** and cannot be undone on the server.</p>
-                
-                <div class="modal-checkbox-group">
-                    <input type="checkbox" id="deleteConfirmCheckbox">
-                    <label for="deleteConfirmCheckbox" style="color:var(--log-deducted-color);">I understand and confirm that these entries will be permanently deleted.</label>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="cancel-button" onclick="closeModal()">Cancel</button>
-                <button class="danger-button" id="modalConfirmDeleteBtn" disabled onclick="confirmDelete()">Permanently Delete</button>
-            </div>
-        </div>
-    </div>
     <script>
         // *******************************************************************
-        // ***⚠️ CONFIGURATION: Replace these placeholders for server sync! ***
+        // *** ⚠️ CONFIGURATION: Replace these placeholders for server sync! ***
         // *******************************************************************
-        // BIN_ID has been updated with your new ID.
-        // You MUST replace the SECRET_KEY placeholder below with your JSONBin.io Master Key.
+        // Note: Your actual working BIN_ID should be here.
         const BIN_ID = "6920a528ae596e708f67f685";
-        const SECRET_KEY = "$2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW"; // <--- YOU MUST REPLACE THIS!
+        // Note: Your actual working SECRET_KEY should be here.
+        const SECRET_KEY = "YOUR_JSONBIN_SECRET_KEY_HERE"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -761,20 +694,14 @@
         const amountInput = document.getElementById('amountInput');
         const whatForInput = document.getElementById('whatFor');
         const miscReasonInput = document.getElementById('miscReasonInput');
+        const noteInput = document.getElementById('noteInput'); // NEW
         const addToListBtn = document.getElementById('addToListBtn');
         const entryList = document.getElementById('entryList');
         const searchBar = document.getElementById('searchBar');
+        const searchButton = document.getElementById('searchButton');
         const downloadLogBtn = document.getElementById('downloadLogBtn');
         const clearLogBtn = document.getElementById('clearLogBtn');
         const clearLogLocalBtn = document.getElementById('clearLogLocalBtn');
-        const deleteSelectedBtn = document.getElementById('deleteSelectedBtn');
-        
-        // Modal Elements
-        const modal = document.getElementById('deleteConfirmationModal');
-        const entriesCountDisplay = document.getElementById('entriesToDeleteCount');
-        const deleteCheckbox = document.getElementById('deleteConfirmCheckbox');
-        const modalConfirmButton = document.getElementById('modalConfirmDeleteBtn');
-
 
         let logEntries = [];
 
@@ -788,43 +715,11 @@
         };
         // --------------------------------------------------------------------------
 
-        // --- MODAL FUNCTIONS ---
-
-        function showDeleteConfirmation() {
-            const selectedCount = entryList.querySelectorAll('li.selected').length;
-            if (selectedCount === 0) {
-                alert("No entries selected for deletion. Click a log entry to select it.");
-                return;
-            }
-
-            entriesCountDisplay.textContent = selectedCount;
-            deleteCheckbox.checked = false; // Reset checkbox state
-            modalConfirmButton.disabled = true; // Button disabled initially
-            modal.style.display = 'block';
-        }
-
-        function closeModal() {
-            modal.style.display = 'none';
-        }
-
-        function toggleModalConfirmButton() {
-            modalConfirmButton.disabled = !deleteCheckbox.checked;
-        }
-
-        async function confirmDelete() {
-            if (deleteCheckbox.checked) {
-                closeModal();
-                await deleteSelectedEntries();
-            } else {
-                alert("Please check the confirmation box to proceed with permanent deletion.");
-            }
-        }
-
-        // --- JSONBIN Functions (Unchanged) ---
+        // --- JSONBIN Functions (No changes needed here) ---
         async function loadEntries() {
             if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                console.error("JSONBin Secret Key is not set. Log will not save or load from server.");
-                return;
+                 console.error("JSONBin Secret Key is not set. Log will not save or load from server.");
+                 return;
             }
 
             try {
@@ -840,11 +735,6 @@
 
                 const records = data.record || data;
                 logEntries = Array.isArray(records) ? records.filter(entry => entry.text !== "PLACEHOLDER") : [];
-                logEntries.forEach((entry) => {
-                    if (entry.id === undefined) {
-                        entry.id = Date.now() + Math.random(); 
-                    }
-                });
 
                 renderEntries();
                 console.log("Log loaded from server successfully.");
@@ -857,10 +747,10 @@
 
         async function saveEntries() {
             if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                console.error("JSONBin Secret Key is not set. Log cannot be saved to server.");
-                return;
+                 console.error("JSONBin Secret Key is not set. Log cannot be saved to server.");
+                 return;
             }
-
+            
             let dataToSend = logEntries.length > 0 ? logEntries : [PLACEHOLDER_ENTRY];
 
             try {
@@ -882,10 +772,10 @@
 
         async function clearLog() {
             if (SECRET_KEY === "YOUR_JSONBIN_SECRET_KEY_HERE") {
-                alert("Cannot clear server log: API key is not configured.");
-                return;
+                 alert("Cannot clear server log: API key is not configured.");
+                 return;
             }
-
+            
             const passwordAttempt = prompt("⚠️ WARNING: This will permanently delete ALL log entries from the SERVER. Please enter the password to confirm:");
 
             if (passwordAttempt !== CLEAR_PASSWORD) {
@@ -927,43 +817,6 @@
             }
         }
 
-        // --- DELETE SELECTED ENTRIES FUNCTION ---
-        async function deleteSelectedEntries() {
-            const selectedItems = Array.from(entryList.querySelectorAll('li.selected'));
-            const idsToDelete = selectedItems.map(li => parseFloat(li.dataset.entryId));
-
-            if (idsToDelete.length === 0) {
-                return; // Should be checked by showDeleteConfirmation, but safety check.
-            }
-
-            // Filter out the entries that match the IDs to delete
-            logEntries = logEntries.filter(entry => !idsToDelete.includes(entry.id));
-            
-            renderEntries();
-            await saveEntries();
-            updateDeleteButtonState();
-        }
-        
-        // --- NEW: Click handler to select the whole entry ---
-        function handleEntryClick(event) {
-            const listItem = event.currentTarget; // The <li> element
-            listItem.classList.toggle('selected');
-            updateDeleteButtonState();
-        }
-        
-        // --- Update Delete Button State ---
-        function updateDeleteButtonState() {
-            const selectedCount = entryList.querySelectorAll('li.selected').length;
-            if (selectedCount > 0) {
-                deleteSelectedBtn.disabled = false;
-                deleteSelectedBtn.textContent = `🗑️ Delete Selected Entries (${selectedCount})`;
-            } else {
-                deleteSelectedBtn.disabled = true;
-                deleteSelectedBtn.textContent = `🗑️ Delete Selected Entries`;
-            }
-        }
-
-
         // --- UTILITY FUNCTIONS ---
 
         function getActionClass(action) {
@@ -981,15 +834,9 @@
                 const listItem = document.createElement('li');
                 listItem.innerHTML = entry.html;
                 listItem.setAttribute('data-search-term', entry.search);
-                listItem.setAttribute('data-entry-id', entry.id); // Store ID for click deletion
                 listItem.classList.add(entry.actionClass);
-                
-                // Add the new click handler to the entire list item
-                listItem.addEventListener('click', handleEntryClick);
-
                 entryList.appendChild(listItem);
             });
-            updateDeleteButtonState();
         }
 
         function getFormattedDateTime() {
@@ -999,6 +846,21 @@
             const datePart = now.toLocaleDateString('en-GB', dateOptions);
             const timePart = now.toLocaleTimeString('en-US', timeOptions);
             return `${datePart} at ${timePart}`;
+        }
+
+        // --- Search Functionality ---
+        function performSearch() {
+            const searchTerm = searchBar.value.toLowerCase().trim();
+            const listItems = entryList.getElementsByTagName('li');
+
+            Array.from(listItems).forEach(item => {
+                const searchData = item.getAttribute('data-search-term');
+                if (searchData && searchData.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
         }
 
         // --- Event listeners ---
@@ -1027,7 +889,14 @@
             let whatDid = actionSelect.value;
             const amount = amountInput.value.trim();
             let whatFor = whatForInput.value;
+            const note = noteInput.value.trim(); // CAPTURE NEW NOTE
             const timestamp = getFormattedDateTime();
+            
+            // Generate display note content (show N/A if empty)
+            const displayNote = note === '' ? "N/A" : note;
+            // Generate a separate line for the note if it exists
+            const noteLineHtml = note === '' ? '' : `<span class="log-segment log-segment-note"><strong>Note:</strong> ${note}</span>`;
+
 
             if (nameId === '' || whatDid === '' || whatDid === '--- Select Action Type ---') {
                 alert('Please fill in the Player name and select an Action Type!');
@@ -1064,10 +933,7 @@
 
             const actionClass = getActionClass(actionSelect.value);
 
-            // Generate a truly unique ID for the new entry
-            const newEntryId = Date.now() + Math.random();
-            
-            // --- REDESIGNED HTML FORMAT: MAX VISIBILITY (NO CHECKBOX) ---
+            // HTML FORMAT FOR DISPLAY
             const entryHtml = `
                 <div class="log-content">
                     <span class="log-segment log-segment-name"><strong>Player:</strong> ${nameId}</span>
@@ -1075,18 +941,17 @@
                     <span class="log-segment log-segment-amount"><strong>Amount:</strong> ${amount}</span>
                     <span class="log-segment log-segment-reason"><strong>Reason:</strong> ${whatFor}</span>
                 </div>
+                ${noteLineHtml}
                 <span class="log-timestamp">Logged: ${timestamp}</span>
             `;
-            // ----------------------------------------------------
 
-            // TEXT FORMAT FOR DOWNLOAD (.txt) AND CONSOLE 
-            const entryText = `${whatDid} | Amount: ${amount} | Player: ${nameId} | Reason: ${whatFor} | Logged: ${timestamp}`;
+            // TEXT FORMAT FOR DOWNLOAD (.txt)
+            const entryText = `${whatDid} | Amount: ${amount} | Player: ${nameId} | Reason: ${whatFor} | Note: ${displayNote} | Logged: ${timestamp}`;
 
             const newEntry = {
-                id: newEntryId, 
                 text: entryText,
                 html: entryHtml,
-                search: `${nameId.toLowerCase()} ${whatDid.toLowerCase()} ${amount.toLowerCase()} ${whatFor.toLowerCase()}`,
+                search: `${nameId.toLowerCase()} ${whatDid.toLowerCase()} ${amount.toLowerCase()} ${whatFor.toLowerCase()} ${note.toLowerCase()}`,
                 timestamp: Date.now(),
                 actionClass: actionClass
             };
@@ -1104,23 +969,16 @@
             whatForInput.value = '';
             miscReasonInput.value = '';
             miscReasonInput.style.display = 'none';
+            noteInput.value = ''; // CLEAR NEW NOTE INPUT
 
             alert(`✅ Log entry saved for: ${nameId} (${whatDid} ${amount})`);
         });
 
-        searchBar.addEventListener('keyup', function() {
-            const searchTerm = searchBar.value.toLowerCase().trim();
-            const listItems = entryList.getElementsByTagName('li');
-
-            Array.from(listItems).forEach(item => {
-                const searchData = item.getAttribute('data-search-term');
-                if (searchData && searchData.includes(searchTerm)) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
+        // Trigger search on keyup (original functionality)
+        searchBar.addEventListener('keyup', performSearch);
+        
+        // Trigger search on button click (new functionality)
+        searchButton.addEventListener('click', performSearch);
 
         downloadLogBtn.addEventListener('click', function() {
             if (logEntries.length === 0) {
@@ -1148,20 +1006,9 @@
 
         clearLogBtn.addEventListener('click', clearLog);
         clearLogLocalBtn.addEventListener('click', clearLogLocal);
-        deleteSelectedBtn.addEventListener('click', showDeleteConfirmation); // Button calls modal function
 
         // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-             loadEntries();
-             // Attach listener to the modal checkbox
-             deleteCheckbox.addEventListener('change', toggleModalConfirmButton);
-             // Attach global listener to close modal on outside click (optional but good UX)
-             window.onclick = function(event) {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            }
-        });
+        document.addEventListener('DOMContentLoaded', loadEntries);
     </script>
 </body>
 </html>
