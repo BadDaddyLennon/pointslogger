@@ -571,6 +571,7 @@
 
             <select id="whatFor">
                 <option value="" disabled selected>--- Select Reason for Points ---</option>
+                <option value="This months Legend (5k)">This months Legend (5k)</option>
                 <option value="Discord Boost (1k points)">Discord boost (1k points)</option>
                 <option value="Server Donation (1k points)">Server donation (1k points)</option>
                 <option value="Mod Developer Donation (1k points)">Mod developer donation (1k points)</option>
@@ -601,6 +602,10 @@
                 <div class="reference-section standard-awards">
                     <h3>⭐ Standard Point Awards Reference</h3>
                     <ul class="points-list">
+                        <li class="points-list-item">
+                            <span>👑 Legend of the Month:</span>
+                            <strong>5,000 pts</strong>
+                        </li>
                         <li class="points-list-item">
                             <span>🚀 Discord Boost:</span>
                             <strong>1,000 pts</strong>
@@ -694,7 +699,7 @@
         const amountInput = document.getElementById('amountInput');
         const whatForInput = document.getElementById('whatFor');
         const miscReasonInput = document.getElementById('miscReasonInput');
-        const noteInput = document.getElementById('noteInput'); // NEW
+        const noteInput = document.getElementById('noteInput'); 
         const addToListBtn = document.getElementById('addToListBtn');
         const entryList = document.getElementById('entryList');
         const searchBar = document.getElementById('searchBar');
