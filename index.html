@@ -330,6 +330,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            position: relative; /* Needed for delete button positioning */
+            padding-right: 40px; /* Space for the delete button */
         }
 
         .log-content {
@@ -448,6 +450,30 @@
         }
         /* --- END SEARCH STYLING --- */
 
+        /* --- DELETE BUTTON STYLING (Desktop & Mobile) --- */
+        .delete-btn {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--log-deducted-red);
+            font-size: 1.5em;
+            font-weight: 900;
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+            opacity: 0.5;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 5;
+        }
+        .delete-btn:hover {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+        /* --- END DELETE BUTTON STYLING --- */
+
 
         /* --- RESPONSIVE ADJUSTMENTS (Mobile Readability Fix) --- */
         
@@ -494,7 +520,7 @@
             
             #entryList li {
                 font-size: 0.9em; /* Increased base font for mobile legibility */
-                padding: 8px; 
+                padding: 8px 40px 8px 8px; /* Added right padding for delete button on mobile */
             }
 
             /* Stack log segments vertically */
@@ -680,12 +706,12 @@
 
     <script>
         // *******************************************************************
-        // ***⚠️ CONFIGURATION: YOUR PRIVATE KEYS ARE INCLUDED BELOW! ⚠️ ***
+        // *** ⚠️ CONFIGURATION: PASTE YOUR NEW PRIVATE KEYS HERE! ⚠️ ***
         // *******************************************************************
-        // BIN_ID: 6920a528ae596e708f67f685 (Your specific data storage location)
-        const BIN_ID = "6920a528ae596e708f67f685";
-        // SECRET_KEY: $2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW (Your Master Key)
-        const SECRET_KEY = "$2a$10$Y7RyMSyB.GU67ZJdEbqQuuwdj7UJhht8mdy.Ytjf1CJHThjMoj0SW"; 
+        // 1. PASTE NEW BIN ID HERE:
+        const BIN_ID = "PASTE_YOUR_NEW_BIN_ID_HERE";
+        // 2. PASTE NEW MASTER KEY HERE:
+        const SECRET_KEY = "PASTE_YOUR_NEW_MASTER_KEY_HERE"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -722,6 +748,10 @@
 
         // --- JSONBIN Functions ---
         async function loadEntries() {
+            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+                 console.error("JSONBin API Keys not set. Log will not save or load from server. Please update the configuration.");
+                 return;
+            }
             try {
                 const response = await fetch(API_URL, {
                     method: 'GET',
@@ -729,7 +759,8 @@
                 });
                 if (!response.ok) {
                     const errorDetails = await response.text();
-                    throw new Error(`HTTP error! Status: ${response.status}. Details: ${errorDetails}`);
+                    console.error("❌ Failed to load log from JSONBin.io. Check your Master Key and Bin ID.", errorDetails);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
 
@@ -737,15 +768,20 @@
                 logEntries = Array.isArray(records) ? records.filter(entry => entry.text !== "PLACEHOLDER") : [];
 
                 renderEntries();
-                console.log("Log loaded from server successfully.");
+                console.log("✅ Log loaded from server successfully.");
             } catch (error) {
-                console.error("Could not load log from server. Starting with an empty log.", error);
+                console.error("🚨 Critical Error: Could not establish connection or retrieve data. Starting with an empty log.", error);
                 logEntries = [];
                 renderEntries();
             }
         }
 
         async function saveEntries() {
+            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+                 console.error("JSONBin API Keys not set. Save aborted.");
+                 return;
+            }
+
             let dataToSend = logEntries.length > 0 ? logEntries : [PLACEHOLDER_ENTRY];
 
             try {
@@ -756,16 +792,22 @@
                 });
                 if (!response.ok) {
                     const errorDetails = await response.text();
-                    throw new Error(`HTTP error! Status: ${response.status}. Details: ${errorDetails}`);
+                    console.error("❌ Failed to save log to JSONBin.io. Check server response.", errorDetails);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-                console.log("Log saved to server successfully.");
+                console.log("✅ Log saved to server successfully.");
             } catch (error) {
-                console.error("Could not save log to server. Error details:", error);
-                alert("🚨 Warning: Log could not be saved to the central server! Check console for details.");
+                console.error("🚨 Critical Error: Could not save log to server. Data may not be persistent.", error);
+                alert("🚨 Warning: Log could not be saved to the central server!");
             }
         }
 
         async function clearLog() {
+            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+                 alert("Cannot clear server log: API keys are not configured.");
+                 return;
+            }
+
             const passwordAttempt = prompt("⚠️ WARNING: This will permanently delete ALL log entries from the SERVER. Please enter the password to confirm:");
 
             if (passwordAttempt !== CLEAR_PASSWORD) {
@@ -785,7 +827,8 @@
 
                 if (!response.ok) {
                     const errorDetails = await response.text();
-                    throw new Error(`Server PUT failed. Status: ${response.status}. Details: ${errorDetails}`);
+                    console.error("❌ Failed to clear log on JSONBin.io.", errorDetails);
+                    throw new Error(`Server PUT failed. Status: ${response.status}`);
                 }
 
                 logEntries = [];
@@ -793,10 +836,10 @@
                 alert("✅ Log has been successfully cleared from the server.");
 
             } catch (error) {
-                console.error("Could not clear log on server. Error details:", error);
+                console.error("🚨 FATAL ERROR: Could not clear log on server.", error);
                 logEntries = originalEntries;
                 renderEntries();
-                alert("🚨 FATAL ERROR: Log could not be cleared on the central server! The local log has been restored with the previous data.");
+                alert("🚨 FATAL ERROR: Log could not be cleared on the central server! The local log has been restored.");
             }
         }
 
@@ -806,6 +849,38 @@
                 alert("Local display cleared. Data remains safe on the server. Reloading the page will bring it back.");
             }
         }
+        
+        // --- Individual Delete Handler ---
+        async function deleteEntry(event) {
+            // Find the list item parent
+            const listItem = event.target.closest('li');
+            if (!listItem) return;
+
+            const entryIndexText = event.target.getAttribute('data-entry-index');
+            const entryIndex = parseInt(entryIndexText, 10);
+            
+            if (isNaN(entryIndex) || entryIndex < 0 || entryIndex >= logEntries.length) {
+                console.error("Invalid entry index for deletion.");
+                alert("Error: Cannot delete this entry. Data index is corrupted.");
+                return;
+            }
+            
+            const entry = logEntries[entryIndex];
+            
+            if (!confirm(`Are you sure you want to delete this entry?\n\nAction: ${entry.text.split(' | ')[0]}\nPlayer: ${entry.text.split(' | Player: ')[1].split(' | Reason: ')[0]}`)) {
+                return;
+            }
+
+            // Remove entry from local array using the correct index
+            logEntries.splice(entryIndex, 1);
+
+            // Re-render and save the new list to the server
+            renderEntries();
+            await saveEntries();
+            
+            alert("Entry deleted and log saved.");
+        }
+
 
         // --- UTILITY FUNCTIONS ---
 
@@ -818,13 +893,26 @@
 
         function renderEntries() {
             entryList.innerHTML = '';
-            const displayEntries = logEntries.filter(entry => entry.text !== "PLACEHOLDER");
-
-            displayEntries.slice().reverse().forEach(entry => {
+            
+            // Assign the index (position in the logEntries array) to each entry.
+            const entriesToRender = logEntries.map((entry, index) => ({...entry, originalIndex: index}));
+            
+            // Render in reverse order (newest first)
+            entriesToRender.slice().reverse().forEach(indexedEntry => {
                 const listItem = document.createElement('li');
-                listItem.innerHTML = entry.html;
-                listItem.setAttribute('data-search-term', entry.search);
-                listItem.classList.add(entry.actionClass);
+                
+                // Add the delete button HTML with the original index attribute
+                listItem.innerHTML = `
+                    <button class="delete-btn" data-entry-index="${indexedEntry.originalIndex}" title="Delete Log Entry">&times;</button>
+                    ${indexedEntry.html}
+                `;
+                listItem.setAttribute('data-search-term', indexedEntry.search);
+                listItem.classList.add(indexedEntry.actionClass);
+                
+                // Add the delete button listener
+                const deleteButton = listItem.querySelector('.delete-btn');
+                deleteButton.addEventListener('click', deleteEntry);
+
                 entryList.appendChild(listItem);
             });
         }
@@ -879,7 +967,7 @@
             let whatDid = actionSelect.value;
             const amount = amountInput.value.trim();
             let whatFor = whatForInput.value;
-            const note = noteInput.value.trim(); // CAPTURE NEW NOTE
+            const note = noteInput.value.trim(); 
             const timestamp = getFormattedDateTime();
             
             // Generate display note content (show N/A if empty)
