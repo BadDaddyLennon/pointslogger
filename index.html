@@ -706,11 +706,12 @@
 
     <script>
         // *******************************************************************
-        // *** ⚠️ CONFIGURATION: PLACEHOLDERS FOR GITHUB DEPLOYMENT ⚠️ ***
-        // *** You must replace these placeholders with your actual, secure keys. ***
+        // *** ⚠️ CONFIGURATION: YOU MUST PASTE YOUR LIVE KEYS BELOW! ⚠️ ***
         // *******************************************************************
-        const BIN_ID = "YOUR_JSONBIN_BIN_ID_HERE";
-        const SECRET_KEY = "YOUR_JSONBIN_MASTER_KEY_HERE"; 
+        // 1. Paste your Bin ID here:
+        const BIN_ID = "69389022ae596e708f8e9cb0";
+        // 2. Paste your Master Key here:
+        const SECRET_KEY = "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -747,7 +748,7 @@
 
         // --- JSONBIN Functions ---
         async function loadEntries() {
-            if (BIN_ID === "69389022ae596e708f8e9cb0" || SECRET_KEY === "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y") {
+            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  console.error("JSONBin API Keys not set. Log will not save or load from server. Please update the configuration.");
                  return;
             }
@@ -776,6 +777,7 @@
         }
 
         async function saveEntries() {
+            // FIX: This check ensures the error you saw in the console does not appear when keys are blank.
             if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  console.error("JSONBin API Keys not set. Save aborted.");
                  return;
@@ -908,7 +910,7 @@
                 deleteButton.innerHTML = '&times;';
                 deleteButton.addEventListener('click', deleteEntry);
 
-                // 2. Append Button and HTML Content
+                // 2. Append Button and HTML Content separately for robustness
                 listItem.appendChild(deleteButton);
                 listItem.insertAdjacentHTML('beforeend', indexedEntry.html);
                 
