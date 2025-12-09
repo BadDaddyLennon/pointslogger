@@ -707,10 +707,9 @@
     <script>
         // *******************************************************************
         // *** ⚠️ CONFIGURATION: PASTE YOUR NEW PRIVATE KEYS HERE! ⚠️ ***
+        // *** You must replace these placeholders with your actual, secure keys. ***
         // *******************************************************************
-        // 1. PASTE NEW BIN ID HERE:
         const BIN_ID = "69389022ae596e708f8e9cb0";
-        // 2. PASTE NEW MASTER KEY HERE:
         const SECRET_KEY = "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
@@ -748,7 +747,7 @@
 
         // --- JSONBIN Functions ---
         async function loadEntries() {
-            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  console.error("JSONBin API Keys not set. Log will not save or load from server. Please update the configuration.");
                  return;
             }
@@ -777,7 +776,7 @@
         }
 
         async function saveEntries() {
-            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  console.error("JSONBin API Keys not set. Save aborted.");
                  return;
             }
@@ -803,7 +802,7 @@
         }
 
         async function clearLog() {
-            if (BIN_ID === "PASTE_YOUR_NEW_BIN_ID_HERE" || SECRET_KEY === "PASTE_YOUR_NEW_MASTER_KEY_HERE") {
+            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  alert("Cannot clear server log: API keys are not configured.");
                  return;
             }
@@ -902,17 +901,20 @@
                 const listItem = document.createElement('li');
                 
                 // Add the delete button HTML with the original index attribute
-                listItem.innerHTML = `
-                    <button class="delete-btn" data-entry-index="${indexedEntry.originalIndex}" title="Delete Log Entry">&times;</button>
-                    ${indexedEntry.html}
-                `;
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete-btn');
+                deleteButton.setAttribute('data-entry-index', indexedEntry.originalIndex);
+                deleteButton.setAttribute('title', 'Delete Log Entry');
+                deleteButton.innerHTML = '&times;';
+                deleteButton.addEventListener('click', deleteEntry);
+
+                // Append button and HTML content separately for robustness
+                listItem.appendChild(deleteButton);
+                listItem.insertAdjacentHTML('beforeend', indexedEntry.html);
+                
                 listItem.setAttribute('data-search-term', indexedEntry.search);
                 listItem.classList.add(indexedEntry.actionClass);
                 
-                // Add the delete button listener
-                const deleteButton = listItem.querySelector('.delete-btn');
-                deleteButton.addEventListener('click', deleteEntry);
-
                 entryList.appendChild(listItem);
             });
         }
