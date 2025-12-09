@@ -709,9 +709,9 @@
         // *** ⚠️ CONFIGURATION: YOU MUST PASTE YOUR LIVE KEYS BELOW! ⚠️ ***
         // *******************************************************************
         // 1. Paste your Bin ID here:
-        const BIN_ID = "YOUR_JSONBIN_BIN_ID_HERE";
+        const BIN_ID = "69389022ae596e708f8e9cb0";
         // 2. Paste your Master Key here:
-        const SECRET_KEY = "YOUR_JSONBIN_MASTER_KEY_HERE"; 
+        const SECRET_KEY = "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -804,7 +804,7 @@
         }
 
         async function clearLog() {
-            if (BIN_ID === "69389022ae596e708f8e9cb0" || SECRET_KEY === "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y") {
+            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  alert("Cannot clear server log: API keys are not configured.");
                  return;
             }
@@ -893,7 +893,6 @@
         }
 
         function renderEntries() {
-            // FIX: Ensure list is completely cleared before rendering.
             entryList.innerHTML = '';
             
             // Assign the index (position in the logEntries array) to each entry.
@@ -913,8 +912,6 @@
 
                 // 2. Append Button and HTML Content
                 listItem.appendChild(deleteButton);
-                // The issue often happens here if indexedEntry.html is undefined or null on first load.
-                // Since we filtered out non-objects in loadEntries, this should be safer now.
                 listItem.insertAdjacentHTML('beforeend', indexedEntry.html);
                 
                 // 3. Set Attributes and Class
