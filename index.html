@@ -709,9 +709,9 @@
         // *** ⚠️ CONFIGURATION: YOU MUST PASTE YOUR LIVE KEYS BELOW! ⚠️ ***
         // *******************************************************************
         // 1. Paste your Bin ID here:
-        const BIN_ID = "69389022ae596e708f8e9cb0";
+        const BIN_ID = "YOUR_JSONBIN_BIN_ID_HERE";
         // 2. Paste your Master Key here:
-        const SECRET_KEY = "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y"; 
+        const SECRET_KEY = "YOUR_JSONBIN_MASTER_KEY_HERE"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -765,7 +765,8 @@
                 const data = await response.json();
 
                 const records = data.record || data;
-                logEntries = Array.isArray(records) ? records.filter(entry => entry.text !== "PLACEHOLDER") : [];
+                // FIX: Filter out non-objects or null records defensively, just in case
+                logEntries = Array.isArray(records) ? records.filter(entry => entry && entry.text !== "PLACEHOLDER") : [];
 
                 renderEntries();
                 console.log("✅ Log loaded from server successfully.");
@@ -777,7 +778,6 @@
         }
 
         async function saveEntries() {
-            // FIX: This check ensures the error you saw in the console does not appear when keys are blank.
             if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
                  console.error("JSONBin API Keys not set. Save aborted.");
                  return;
@@ -804,7 +804,7 @@
         }
 
         async function clearLog() {
-            if (BIN_ID === "YOUR_JSONBIN_BIN_ID_HERE" || SECRET_KEY === "YOUR_JSONBIN_MASTER_KEY_HERE") {
+            if (BIN_ID === "69389022ae596e708f8e9cb0" || SECRET_KEY === "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y") {
                  alert("Cannot clear server log: API keys are not configured.");
                  return;
             }
@@ -893,6 +893,7 @@
         }
 
         function renderEntries() {
+            // FIX: Ensure list is completely cleared before rendering.
             entryList.innerHTML = '';
             
             // Assign the index (position in the logEntries array) to each entry.
@@ -910,8 +911,10 @@
                 deleteButton.innerHTML = '&times;';
                 deleteButton.addEventListener('click', deleteEntry);
 
-                // 2. Append Button and HTML Content separately for robustness
+                // 2. Append Button and HTML Content
                 listItem.appendChild(deleteButton);
+                // The issue often happens here if indexedEntry.html is undefined or null on first load.
+                // Since we filtered out non-objects in loadEntries, this should be safer now.
                 listItem.insertAdjacentHTML('beforeend', indexedEntry.html);
                 
                 // 3. Set Attributes and Class
