@@ -709,8 +709,8 @@
         // *** ⚠️ CONFIGURATION: PLACEHOLDERS FOR GITHUB DEPLOYMENT ⚠️ ***
         // *** You must replace these placeholders with your actual, secure keys. ***
         // *******************************************************************
-        const BIN_ID = "69389022ae596e708f8e9cb0";
-        const SECRET_KEY = "$2a$10$AGsAc/FGcGFFtSHsaLM9de17DA4gr8Tn/A1ZD6B1NkQHITT2Mb21y"; 
+        const BIN_ID = "YOUR_JSONBIN_BIN_ID_HERE";
+        const SECRET_KEY = "YOUR_JSONBIN_MASTER_KEY_HERE"; 
         const API_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
         // *******************************************************************
 
@@ -900,7 +900,7 @@
             entriesToRender.slice().reverse().forEach(indexedEntry => {
                 const listItem = document.createElement('li');
                 
-                // Add the delete button HTML with the original index attribute
+                // 1. Create Delete Button
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete-btn');
                 deleteButton.setAttribute('data-entry-index', indexedEntry.originalIndex);
@@ -908,13 +908,15 @@
                 deleteButton.innerHTML = '&times;';
                 deleteButton.addEventListener('click', deleteEntry);
 
-                // Append button and HTML content separately for robustness
+                // 2. Append Button and HTML Content
                 listItem.appendChild(deleteButton);
                 listItem.insertAdjacentHTML('beforeend', indexedEntry.html);
                 
+                // 3. Set Attributes and Class
                 listItem.setAttribute('data-search-term', indexedEntry.search);
                 listItem.classList.add(indexedEntry.actionClass);
                 
+                // 4. Append to List
                 entryList.appendChild(listItem);
             });
         }
